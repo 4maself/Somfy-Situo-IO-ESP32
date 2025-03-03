@@ -2,6 +2,8 @@
 Journal of hacking a Wemos S2 mini onto a Somfy Situo IO 1 Pure II for use with HomeAssistant.
 I just want to control the 3 (or maybe all 4) buttons from Home Assistant to automate my screens.
 
+Credits to https://github.com/agvdberg/SomfyIO_ESPHome_HomeAssistant for their work on the previous gen remote.
+
 ## Button layout
 - pin 1: up
 - pin 2: my/stop
