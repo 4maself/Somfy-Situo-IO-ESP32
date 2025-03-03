@@ -1,0 +1,95 @@
+substitutions:
+  # Takes 25 seconds to fully close/open
+  moving_time: 25s
+  name: Screen
+
+esphome:
+  name: screens
+  friendly_name: Screens
+
+esp32:
+  board: esp32-s2-saola-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "key"
+
+ota:
+  - platform: esphome
+    password: "password"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  manual_ip:
+    # Set this to the IP of the ESP
+    #static_ip: 10.1.2.3
+    # Set this to the IP address of the router. Often ends with .1
+    #gateway: 10.1.2.1
+    # The subnet of the network. 255.255.255.0 works for most home networks.
+    #subnet: 255.255.255.0
+
+captive_portal:
+
+switch:
+  - platform: gpio
+    pin: 1  #GPIO1 / connected to Somfy UP
+    id: pin1
+    restore_mode: ALWAYS_ON   # start HIGH
+  - platform: gpio
+    pin: 2  #GPIO1 / connected to Somfy UP
+    id: pin2
+    restore_mode: ALWAYS_ON   # start HIGH
+  - platform: gpio
+    pin: 3  #GPIO1 / connected to Somfy UP
+    id: pin3
+    restore_mode: ALWAYS_ON   # start HIGH
+
+button:
+  - platform: template
+    name: Up
+    id: s2_up
+    icon: "mdi:menu-up"
+    on_press:
+      - logger.log: "Button UP pressed"
+      - switch.turn_off: pin1   # negative: pin=off => output low
+      - delay: 500ms
+      - switch.turn_on: pin1    # pin=on => output high
+  - platform: template
+    name: My
+    id: s2_my
+    icon: "mdi:gesture-tap-button"
+    on_press:
+      - logger.log: "Button MY pressed"
+      - switch.turn_off: pin2   # negative: pin=off => output low
+      - delay: 500ms
+      - switch.turn_on: pin2    # pin=on => output high
+  - platform: template
+    name: Down
+    id: s2_down
+    icon: "mdi:menu-down"
+    on_press:
+      - logger.log: "Button DOWN pressed"
+      - switch.turn_off: pin3   # negative: pin=off => output low
+      - delay: 500ms
+      - switch.turn_on: pin3    # pin=on => output high
+
+cover:
+  - platform: time_based
+    name: Cover
+    open_action:
+      - button.press: s2_up
+    open_duration: ${moving_time}
+    close_duration: ${moving_time}
+    close_action:
+      - button.press: s2_down
+    stop_action:
+      - button.press: s2_my
+    assumed_state: True
+    has_built_in_endstop: True
