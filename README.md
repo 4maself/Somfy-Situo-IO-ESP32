@@ -30,7 +30,7 @@ Think the bottom side will work to solder wires to.
 
 ### Idea for layout
 Want to keep the remote as original as possible. The idea is to put the S2 mini inside the remote if it fits with a little bit of cutting.
-Hopefully, I can remove the battery and use that space for the board.
+The remote can run from the 3.3V on the ESP.
 
 The buttons still have to properly function when they're manually pressed.
 
