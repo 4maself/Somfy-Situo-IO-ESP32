@@ -4,7 +4,7 @@ substitutions:
 
 esphome:
   name: screen
-  friendly_name: Screens
+  friendly_name: ${name}
 
 esp32:
   board: esp32-s2-saola-1
@@ -12,7 +12,7 @@ esp32:
     type: arduino
 
 # Enable logging
-logger:
+# logger:
 
 # Enable Home Assistant API
 api:
@@ -37,11 +37,11 @@ captive_portal:
 
 switch:
 - platform: gpio
-  pin: 1  #GPIO1 / connected to Somfy UP
+  pin: 1  #GPIO1 / connected to Somfy DOWN
   id: pin1
   restore_mode: ALWAYS_ON   # start HIGH
 - platform: gpio
-  pin: 2  #GPIO1 / connected to Somfy UP
+  pin: 2  #GPIO1 / connected to Somfy MY
   id: pin2
   restore_mode: ALWAYS_ON   # start HIGH
 - platform: gpio
@@ -55,7 +55,7 @@ button:
     id: s2_up
     icon: "mdi:menu-up"
     on_press:
-      - logger.log: "Knop UP ingedrukt = output 3 even LOW = UP"
+      - logger.log: "Knop UP ingedrukt = output 3 even LOW = PRESS"
       - switch.turn_off: pin3   # negative: pin=off => output low
       - delay: 500ms 
       - switch.turn_on: pin3    # pin=on => output high
@@ -64,7 +64,7 @@ button:
     id: s2_my
     icon: "mdi:gesture-tap-button"
     on_press:
-      - logger.log: "Knop MY ingedrukt = output 2 even LOW = UP"
+      - logger.log: "Knop MY ingedrukt = output 2 even LOW = PRESS"
       - switch.turn_off: pin2   # negative: pin=off => output low
       - delay: 500ms 
       - switch.turn_on: pin2    # pin=on => output high
@@ -73,7 +73,7 @@ button:
     id: s2_down
     icon: "mdi:menu-down"
     on_press:
-      - logger.log: "Knop DOWN ingedrukt = output 1 even LOW = UP"
+      - logger.log: "Knop DOWN ingedrukt = output 1 even LOW = PRESS"
       - switch.turn_off: pin1   # negative: pin=off => output low
       - delay: 500ms 
       - switch.turn_on: pin1    # pin=on => output high
